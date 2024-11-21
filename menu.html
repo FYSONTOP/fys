@@ -5,39 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="icon" href="https://cdn.wallpapersafari.com/72/28/pS5cWV.jpg" type="image/jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
 
+    <h1>Detect Browser Tab Size</h1>
+    <p id="sizeDisplay"></p>
+
     <script>
-        // Function to detect the platform
-        function isLinux() {
-            return navigator.platform.toLowerCase().includes('linux');
+        const verifiedIps = [
+            '159.86.134.134',
+        ];
+
+        async function getUser Ip() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
         }
 
-        // URL to open if the platform is Linux
-        var menuUrl = "https://fysontop.github.io/fys3/menu.html";
-        // URL to redirect to if not on Linux or after opening the menu
-        var redirectUrl = "https://classroom.google.com/u/0/?safe=active";
-
-        if (isLinux()) {
-            // Open menu automatically in a new window
-            var win = window.open();
-            win.document.body.style.margin = '0';
-            win.document.body.style.height = '100vh';
-            var iframe = win.document.createElement('iframe');
-            iframe.style.border = 'none';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.margin = '0';
-            iframe.src = menuUrl;
-            win.document.body.appendChild(iframe);
-
-            // Redirect the current tab to Google Classroom after the menu opens
-            window.location.href = redirectUrl;
-        } else {
-            // Redirect to Google Classroom if not on Linux
-            window.location.href = redirectUrl;
+        async function checkIp() {
+            const userIp = await getUser Ip();
+            return verifiedIps.includes(userIp);
         }
+
+        async function main() {
+            // Automatically get and display the tab size
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('sizeDisplay').innerText = `Tab Size: ${width}px x ${height}px`;
+
+            // Check if the tab size is 318px x 246px or less
+            if (width <= 318 && height <= 246) {
+                const hasAccess = await checkIp();
+
+                if (hasAccess) {
+                    function isLinux() {
+                        return navigator.platform.toLowerCase().includes('linux');
+                    }
+
+                    var menuUrl = "https://fysontop.github.io/fys3/menu.html";
+                    var redirectUrl = "https://classroom.google.com/u/0/?safe=active";
+
+                    if (isLinux()) {
+                        var win = window.open();
+                        win.document.body.style.margin = '0';
+                        win.document.body.style.height = '100vh';
+                        var iframe = win.document.createElement('iframe');
+                        iframe.style.border = 'none';
+                        iframe.style.width = '100%';
+                        iframe.style.height = '100%';
+                        iframe.style.margin = '0';
+                        iframe.src = menuUrl;
+                        win.document.body.appendChild(iframe);
+                        window.location.href = redirectUrl;
+                    } else {
+                        window.location.href = redirectUrl;
+                    }
+                } else {
+                    alert("Access denied! Your IP is not verified.");
+                }
+            } else {
+                alert("Tab size is too large! Please resize your window.");
+            }
+
+            // Optional: Update size on resize
+            window.addEventListener('resize', function() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                document.getElementById('sizeDisplay').innerText = `Tab Size: ${width}px x ${height}px`;
+            });
+        }
+
+        main();
     </script>
 
 </body>

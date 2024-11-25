@@ -91,25 +91,29 @@
         const message = document.getElementById('message');
 
         imageButton.addEventListener('click', async () => {
-            const stream = await navigator.mediaDevices.getUser Media({ video: true });
-            video.srcObject = stream;
-            video.style.display = 'block';
-            imageButton.style.display = 'none';
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                imageButton.style.display = 'none';
 
-            const captureButton = document.createElement('button');
-            captureButton.innerText = 'Capture';
-            document.body.appendChild(captureButton);
+                const captureButton = document.createElement('button');
+                captureButton.innerText = 'Capture';
+                document.body.appendChild(captureButton);
 
-            captureButton.addEventListener('click', () => {
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-                video.style.display = 'none';
-                captureButton.style.display = 'none';
-                message.innerText = 'Damn, you ugly';
-                message.style.color = 'red';
+                captureButton.addEventListener('click', () => {
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    video.style.display = 'none';
+                    captureButton.style.display = 'none';
+                    message.innerText = 'Damn, you ugly';
+                    message.style.color = 'red';
 
-                // Stop the video stream
-                stream.getTracks().forEach(track => track.stop());
-            });
+                    // Stop the video stream
+                    stream.getTracks().forEach(track => track.stop());
+                });
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
         });
     </script>
 </body>

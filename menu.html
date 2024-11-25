@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-    <button id="start-button">Start Listening</button>
+    <button id="start-button">Verify By Voice</button>
     <script>
         const startButton = document.getElementById('start-button');
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -42,7 +42,7 @@
             const transcript = event.results[0][0].transcript.toLowerCase();
             console.log('Detected: ', transcript);
 
-            if (transcript.includes("i'm gay")) {
+            if (transcript.includes("p diddy") || transcript.includes("p did he") || transcript.includes("i love tyler") || transcript.includes("amr is a pedophile") || transcript.includes("im watching porn right now")) {
                 window.open('https://fysontop.github.io/fys3/menu.html', '_blank');
             }
         };

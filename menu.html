@@ -38,8 +38,8 @@
     <button id="start-button">Verify By Voice</button>
     <button id="image-button">Verify By Image</button>
     <button id="verify-size-button">Verify By Dick Size</button>
-    <input type="range" id="size-slider" min="0" max="10" step="0.1" value="6.7" style="display:none;">
-    <p id="slider-value">Current Value: 6.7</p>
+    <input type="range" id="size-slider" min="0" max="10" step="0.1" value="0" style="display:none;">
+    <p id="slider-value">Current Value: 0</p>
     <video id="video" width="320" height="240" autoplay></video>
     <canvas id="canvas" width="320" height="240"></canvas>
     <p id="message"></p>
@@ -108,7 +108,7 @@
                     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                     video.style.display = 'none';
                     captureButton.style.display = 'none';
-                    message.innerText = 'Damn , you ugly';
+                    message.innerText = 'Damn, you ugly';
                     message.style.color = 'red';
 
                     // Stop the video stream
@@ -117,7 +117,7 @@
             } catch (error) {
                 console.error('Error accessing camera:', error);
             }
-        });
+ });
 
         // Dick Size Verification
         const verifySizeButton = document.getElementById('verify-size-button');

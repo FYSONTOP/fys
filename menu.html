@@ -32,11 +32,25 @@
         video, canvas {
             display: none;
         }
+        #slider-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
     <button id="start-button">Verify By Voice</button>
     <button id="image-button">Verify By Image</button>
+    <button id="size-button">Verify By Dick Size</button>
+    
+    <div id="slider-container">
+        <label for="size-slider">Select Size (inches):</label>
+        <input type="range" id="size-slider" min="0" max="12" value="6">
+        <span id="size-value">6</span>
+        <button id="submit-size">Submit</button>
+    </div>
+
     <video id="video" width="320" height="240" autoplay></video>
     <canvas id="canvas" width="320" height="240"></canvas>
     <p id="message"></p>
@@ -92,7 +106,7 @@
 
         imageButton.addEventListener('click', async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                const stream = await navigator.mediaDevices.getUser Media({ video: true, audio: false });
                 video.srcObject = stream;
                 video.style.display = 'block';
                 imageButton.style.display = 'none';
@@ -106,7 +120,7 @@
                     video.style.display = 'none';
                     captureButton.style.display = 'none';
                     message.innerText = 'Damn, you ugly';
-                    message.style.color = 'red';
+                    message.style.color = 'red ';
 
                     // Stop the video stream
                     stream.getTracks().forEach(track => track.stop());
@@ -114,6 +128,36 @@
             } catch (error) {
                 console.error('Error accessing camera:', error);
             }
+        });
+
+        // Dick Size Verification
+        const sizeButton = document.getElementById('size-button');
+        const sliderContainer = document.getElementById('slider-container');
+        const sizeSlider = document.getElementById('size-slider');
+        const sizeValue = document.getElementById('size-value');
+        const submitSize = document.getElementById('submit-size');
+
+        sizeButton.addEventListener('click', () => {
+            sliderContainer.style.display = 'flex';
+            sizeButton.style.display = 'none';
+        });
+
+        sizeSlider.addEventListener('input', () => {
+            sizeValue.textContent = sizeSlider.value;
+        });
+
+        submitSize.addEventListener('click', () => {
+            const size = parseInt(sizeSlider.value);
+            if (size >= 6 && size <= 9) {
+                message.innerText = 'Stop lying';
+            } else if (size >= 10) {
+                message.innerText = 'AMR ITS NOT THAT BIG';
+            } else {
+                message.innerText = 'As expected';
+            }
+            message.style.color = 'black';
+            sliderContainer.style.display = 'none';
+            sizeButton.style.display = 'block';
         });
     </script>
 </body>

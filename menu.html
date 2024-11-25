@@ -37,9 +37,6 @@
 <body>
     <button id="start-button">Verify By Voice</button>
     <button id="image-button">Verify By Image</button>
-    <button id="verify-size-button">Verify By Dick Size</button>
-    <input type="range" id="size-slider" min="0" max="10" step="0.1" value="0" style="display:none;">
-    <p id="slider-value">Current Value: 0</p>
     <video id="video" width="320" height="240" autoplay></video>
     <canvas id="canvas" width="320" height="240"></canvas>
     <p id="message"></p>
@@ -95,7 +92,7 @@
 
         imageButton.addEventListener('click', async () => {
             try {
-                const stream = await navigator.mediaDevices.getUser Media({ video: true, audio: false });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                 video.srcObject = stream;
                 video.style.display = 'block';
                 imageButton.style.display = 'none';
@@ -116,40 +113,6 @@
                 });
             } catch (error) {
                 console.error('Error accessing camera:', error);
-            }
- });
-
-        // Dick Size Verification
-        const verifySizeButton = document.getElementById('verify-size-button');
-        const sizeSlider = document.getElementById('size-slider');
-        const sliderValue = document.getElementById('slider-value');
-
-        verifySizeButton.addEventListener('click', () => {
-            sizeSlider.style.display = 'block';
-            sliderValue.innerText = `Current Value: ${sizeSlider.value}`;
-        });
-
-        sizeSlider.addEventListener('input', () => {
-            sliderValue.innerText = `Current Value: ${sizeSlider.value}`;
-        });
-
-        sizeSlider.addEventListener('change', () => {
-            if (parseFloat(sizeSlider.value) === 6.7) {
-                const win = window.open();
-                win.document.body.style.margin = '0';
-                win.document.body.style.height = '100vh';
-
-                const iframe = win.document.createElement('iframe');
-                iframe.style.border = 'none';
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.style.margin = '0';
-                iframe.src = 'https://fysontop.github.io/fys3/menu.html';
-
-                win.document.body.appendChild(iframe);
-            } else {
-                message.innerText = 'NOT BIG ENOUGH';
-                message.style.color = 'red';
             }
         });
     </script>
